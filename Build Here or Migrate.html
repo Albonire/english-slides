@@ -8,9 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
-  deck-stage:not(:defined) { visibility: hidden; }
-
-  :root {
+deck-stage:not(:defined) { visibility: hidden; }
+:root {
     --bg-dark: #14352c;
     --bg-dark-deep: #0c241d;
     --bg-light: #f5eee0;
@@ -22,7 +21,6 @@
     --gold-bright: #e2c378;
     --gold-deep: #8a6a2c;
     --burgundy: #6e2639;
-
     --type-title: 84px;
     --type-title-sm: 68px;
     --type-display: 170px;
@@ -30,151 +28,197 @@
     --type-body: 32px;
     --type-small: 25px;
     --type-script: 44px;
-
     --pad-x: 110px;
     --pad-top: 90px;
     --pad-bottom: 84px;
     --gap-title: 48px;
     --gap-item: 34px;
-
     --grain: url("assets/canvas-grain.png");
-  }
+}
+html, body { margin: 0; padding: 0; background: #000; }
 
-  html, body { margin: 0; padding: 0; background: #000; }
-
-  /* ── Oil-on-canvas surface ───────────────────────────────── */
-  deck-stage section {
+/* ── Oil-on-canvas surface ───────────────────────────────── */
+deck-stage section {
     font-family: "EB Garamond", Georgia, serif;
     font-size: var(--type-body);
     color: var(--ink);
     background:
-      radial-gradient(120% 120% at 50% 40%, rgba(255,250,238,0) 52%, rgba(74,56,28,0.16) 100%),
-      linear-gradient(180deg, #f7f1e4 0%, var(--bg-light) 48%, #eadfca 100%);
+        radial-gradient(120% 120% at 50% 40%, rgba(255,250,238,0) 52%, rgba(74,56,28,0.16) 100%),
+        linear-gradient(180deg, #f7f1e4 0%, var(--bg-light) 48%, #eadfca 100%);
     overflow: hidden;
-  }
-  deck-stage section.dark {
+    position: relative;
+}
+
+deck-stage section.dark {
     background:
-      radial-gradient(135% 135% at 50% 42%, rgba(0,0,0,0) 56%, rgba(0,0,0,0.42) 100%),
-      radial-gradient(ellipse at 50% 40%, var(--bg-dark) 0%, var(--bg-dark-deep) 100%);
+        radial-gradient(135% 135% at 50% 42%, rgba(0,0,0,0) 56%, rgba(0,0,0,0.42) 100%),
+        radial-gradient(ellipse at 50% 40%, var(--bg-dark) 0%, var(--bg-dark-deep) 100%);
     color: var(--ivory);
-  }
-  /* canvas weave + brush grain over the whole slide ground */
-  deck-stage section::before {
+}
+
+/* canvas weave + brush grain over the whole slide ground */
+deck-stage section::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     background-image:
-      repeating-linear-gradient(0deg, rgba(60,42,18,0.05) 0 1px, transparent 1px 3px),
-      repeating-linear-gradient(90deg, rgba(60,42,18,0.05) 0 1px, transparent 1px 3px),
-      var(--grain);
-    background-size: 3px 3px, 3px 3px, 200px 200px;
-    opacity: 0.6;
-  }
-  deck-stage section.dark::before { opacity: 0.4; }
-  .wrap { z-index: 1; }
+        repeating-linear-gradient(0deg, rgba(60,42,18,0.06) 0 1.5px, transparent 1.5px 4px),
+        repeating-linear-gradient(90deg, rgba(60,42,18,0.06) 0 1.5px, transparent 1.5px 4px),
+        var(--grain);
+    background-size: 4px 4px, 4px 4px, 220px 220px;
+    opacity: 0.65;
+    mix-blend-mode: multiply;
+}
 
-  .wrap {
+deck-stage section.dark::before {
+    opacity: 0.45;
+    mix-blend-mode: screen;
+}
+
+.wrap { z-index: 1; }
+.wrap {
     height: 100%;
     box-sizing: border-box;
     padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
     display: flex;
     flex-direction: column;
     position: relative;
-  }
+}
 
-  /* ── Ornamental hairline frame ───────────────────────────── */
-  .liner {
+/* ── Ornamental hairline frame ───────────────────────────── */
+.liner {
     position: absolute;
     inset: 34px;
     border: 1.5px solid color-mix(in srgb, var(--gold) 65%, transparent);
     pointer-events: none;
-  }
-  .liner::before {
+    box-shadow:
+        inset 0 0 12px rgba(201,161,77,0.08),
+        0 0 8px rgba(201,161,77,0.05);
+}
+.liner::before {
     content: "";
     position: absolute;
     inset: 7px;
     border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
-  }
-  .liner .fl { position: absolute; font-size: 30px; color: var(--gold); line-height: 1; }
-  .liner .fl.tl { top: -16px; left: -13px; }
-  .liner .fl.tr { top: -16px; right: -13px; transform: scaleX(-1); }
-  .liner .fl.bl { bottom: -15px; left: -13px; transform: scaleY(-1); }
-  .liner .fl.br { bottom: -15px; right: -13px; transform: scale(-1); }
+}
+.liner .fl {
+    position: absolute;
+    font-size: 30px;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(201,161,77,0.3);
+}
+.liner .fl.tl { top: -16px; left: -13px; }
+.liner .fl.tr { top: -16px; right: -13px; transform: scaleX(-1); }
+.liner .fl.bl { bottom: -15px; left: -13px; transform: scaleY(-1); }
+.liner .fl.br { bottom: -15px; right: -13px; transform: scale(-1); }
 
-  /* ── Headers ─────────────────────────────────────────────── */
-  .eyebrow {
+/* ── Headers ─────────────────────────────────────────────── */
+.eyebrow {
     font-family: "Pinyon Script", cursive;
     font-size: var(--type-script);
     color: var(--gold-deep);
     margin: 0 0 6px 0;
     line-height: 1.2;
     white-space: nowrap;
-  }
-  .dark .eyebrow { color: var(--gold-bright); }
+    text-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.dark .eyebrow { color: var(--gold-bright); text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
 
-  h1, h2 {
+h1, h2 {
     font-family: "Cormorant Garamond", Georgia, serif;
     font-weight: 600;
     margin: 0;
     line-height: 1.04;
     letter-spacing: 0.01em;
     text-wrap: balance;
-  }
-  h1 { font-size: var(--type-title); }
-  h2 { font-size: var(--type-title-sm); }
+    text-shadow:
+        0 1px 2px rgba(0,0,0,0.08),
+        0 2px 4px rgba(0,0,0,0.04);
+}
+h1 { font-size: var(--type-title); }
+h2 { font-size: var(--type-title-sm); }
 
-  .rule {
+.rule {
     display: flex;
     align-items: center;
     gap: 22px;
     margin-top: 30px;
-  }
-  .rule .ln { height: 1.5px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold)); max-width: 280px; }
-  .rule .ln + .dia + .ln,
-  .rule .dia + .ln { background: linear-gradient(90deg, var(--gold), transparent); }
-  .rule .dia { color: var(--gold); font-size: 24px; line-height: 1; }
-  .rule.left { justify-content: flex-start; }
-  .rule.left .ln { max-width: 170px; }
-  .rule.center { justify-content: center; }
+}
+.rule .ln {
+    height: 2px;
+    flex: 1;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    max-width: 280px;
+    box-shadow: 0 0 8px rgba(201,161,77,0.3);
+    border-radius: 1px;
+}
+.rule .ln + .dia + .ln,
+.rule .dia + .ln { background: linear-gradient(90deg, var(--gold), transparent); }
+.rule .dia {
+    color: var(--gold);
+    font-size: 24px;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(201,161,77,0.4);
+}
+.rule.left { justify-content: flex-start; }
+.rule.left .ln { max-width: 170px; }
+.rule.center { justify-content: center; }
 
-  .centered { text-align: center; align-items: center; }
+.centered { text-align: center; align-items: center; }
 
-  /* ── Gilded picture frames ───────────────────────────────── */
-  .gilt {
-    padding: 13px;
+/* ── Gilded picture frames with oil paint effect ───────────────────────────────── */
+.gilt {
+    padding: 14px;
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #ecd28a 0%, #a8812f 32%, #e6ca7e 58%, #8a6a2c 100%);
-    box-shadow: 0 0 0 2.5px #6d5420, 0 26px 54px rgba(20, 16, 5, 0.38);
-  }
-  .gilt img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.08) contrast(1.05) brightness(1.01); }
-  /* varnish vignette baked over each painting */
-  .gilt::after {
+    box-shadow:
+        0 0 0 2.5px #6d5420,
+        inset 0 0 20px rgba(60,42,18,0.3),
+        0 26px 54px rgba(20, 16, 5, 0.42),
+        0 8px 24px rgba(20, 16, 5, 0.28);
+    border-radius: 2px;
+}
+.gilt img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.12) contrast(1.06) brightness(1.02);
+    transform: translateZ(0);
+}
+
+/* varnish vignette baked over each painting */
+.gilt::after {
     content: "";
     position: absolute;
-    inset: 13px;
+    inset: 14px;
     pointer-events: none;
     z-index: 2;
-    background: radial-gradient(130% 115% at 50% 32%, rgba(0,0,0,0) 54%, rgba(28,18,6,0.5) 100%);
-  }
-  .cameo { border-radius: 50%; }
-  .cameo img { border-radius: 50%; }
-  .cameo::after { inset: 13px; border-radius: 50%; }
+    background: radial-gradient(135% 120% at 50% 32%, rgba(0,0,0,0) 52%, rgba(28,18,6,0.55) 100%);
+    border-radius: 1px;
+}
 
-  .credit {
+.cameo { border-radius: 50%; }
+.cameo img { border-radius: 50%; }
+.cameo::after { inset: 14px; border-radius: 50%; }
+
+.credit {
     font-size: var(--type-small);
     font-style: italic;
     color: var(--ink-soft);
     text-align: center;
     margin: 22px 0 0 0;
-  }
-  .dark .credit { color: var(--ivory-soft); }
+    text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+.dark .credit { color: var(--ivory-soft); }
 
-  /* ── Roman-numeral points ────────────────────────────────── */
-  .points { display: flex; flex-direction: column; gap: var(--gap-item); margin-top: var(--gap-title); }
-  .point { display: grid; grid-template-columns: 92px 1fr; column-gap: 30px; align-items: start; }
-  .point .num {
+/* ── Roman-numeral points ────────────────────────────────── */
+.points { display: flex; flex-direction: column; gap: var(--gap-item); margin-top: var(--gap-title); }
+.point { display: grid; grid-template-columns: 92px 1fr; column-gap: 30px; align-items: start; }
+.point .num {
     font-family: "Cormorant Garamond", serif;
     font-style: italic;
     font-weight: 500;
@@ -184,74 +228,80 @@
     border-bottom: 1.5px solid color-mix(in srgb, var(--gold) 55%, transparent);
     padding-bottom: 10px;
     text-align: center;
-  }
-  .point h3 {
+    text-shadow:
+        0 2px 4px rgba(201,161,77,0.3),
+        0 1px 2px rgba(201,161,77,0.2);
+}
+.point h3 {
     font-family: "Cormorant Garamond", serif;
     font-size: var(--type-subtitle);
     font-weight: 700;
     margin: 0 0 6px 0;
     line-height: 1.1;
-  }
-  .point p { margin: 0; font-size: var(--type-body); line-height: 1.4; color: var(--ink-soft); }
-  .dark .point p { color: var(--ivory-soft); }
+    text-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.point p { margin: 0; font-size: var(--type-body); line-height: 1.4; color: var(--ink-soft); }
+.dark .point p { color: var(--ivory-soft); }
 
-  /* ── Case layout (slides 4–6) ────────────────────────────── */
-  .case { display: grid; grid-template-columns: 560px 1fr; column-gap: 96px; align-items: center; flex: 1; min-height: 0; }
-  .case.flip { grid-template-columns: 1fr 560px; }
-  .case .art { display: flex; flex-direction: column; justify-content: center; }
-  .case .art .gilt { height: 700px; }
+/* ── Case layout (slides 4-6) ────────────────────────────── */
+.case { display: grid; grid-template-columns: 560px 1fr; column-gap: 96px; align-items: center; flex: 1; min-height: 0; }
+.case.flip { grid-template-columns: 1fr 560px; }
+.case .art { display: flex; flex-direction: column; justify-content: center; }
+.case .art .gilt { height: 700px; }
 
-  .lede { font-size: var(--type-body); line-height: 1.55; color: var(--ink-soft); margin: 26px 0 0 0; max-width: 1340px; }
-  .dark .lede { color: var(--ivory-soft); }
-  em.gold { font-style: italic; color: var(--gold-deep); white-space: nowrap; }
-  .dark em.gold { color: var(--gold-bright); }
+.lede { font-size: var(--type-body); line-height: 1.55; color: var(--ink-soft); margin: 26px 0 0 0; max-width: 1340px; }
+.dark .lede { color: var(--ivory-soft); }
+em.gold { font-style: italic; color: var(--gold-deep); white-space: nowrap; }
+.dark em.gold { color: var(--gold-bright); }
 
-  /* ── Slide 1 ─────────────────────────────────────────────── */
-  .titlegrid { display: grid; grid-template-columns: 1fr 560px; column-gap: 110px; align-items: center; flex: 1; min-height: 0; }
-  .title-or {
+/* ── Slide 1 ─────────────────────────────────────────────── */
+.titlegrid { display: grid; grid-template-columns: 1fr 560px; column-gap: 110px; align-items: center; flex: 1; min-height: 0; }
+.title-or {
     font-family: "Pinyon Script", cursive;
     font-weight: 400;
     font-size: 0.82em;
     color: var(--gold-bright);
     padding: 0 10px;
-  }
-  .smallcaps {
+}
+.smallcaps {
     font-size: var(--type-small);
     letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--ivory-soft);
     margin: 44px 0 0 0;
-  }
+}
 
-  /* ── Slide 2 ─────────────────────────────────────────────── */
-  .twoways { display: grid; grid-template-columns: 1fr 1fr; column-gap: 120px; margin-top: 56px; flex: 1; min-height: 0; align-content: start; }
-  .way { display: flex; flex-direction: column; }
-  .way .gilt { height: 470px; }
-  .way h3 { font-family: "Cormorant Garamond", serif; font-size: var(--type-subtitle); font-weight: 700; margin: 30px 0 8px 0; text-align: center; }
-  .way p { margin: 0; text-align: center; font-size: var(--type-body); line-height: 1.4; color: var(--ink-soft); }
+/* ── Slide 2 ─────────────────────────────────────────────── */
+.twoways { display: grid; grid-template-columns: 1fr 1fr; column-gap: 120px; margin-top: 56px; flex: 1; min-height: 0; align-content: start; }
+.way { display: flex; flex-direction: column; }
+.way .gilt { height: 470px; }
+.way h3 { font-family: "Cormorant Garamond", serif; font-size: var(--type-subtitle); font-weight: 700; margin: 30px 0 8px 0; text-align: center; }
+.way p { margin: 0; text-align: center; font-size: var(--type-body); line-height: 1.4; color: var(--ink-soft); }
+.kicker { text-align: center; font-style: italic; font-size: var(--type-body); color: var(--ink-soft); margin: 36px 0 0 0; }
+.dark .kicker { color: var(--ivory-soft); }
 
-  .kicker { text-align: center; font-style: italic; font-size: var(--type-body); color: var(--ink-soft); margin: 36px 0 0 0; }
-  .dark .kicker { color: var(--ivory-soft); }
-
-  /* ── Slide 3 ─────────────────────────────────────────────── */
-  .figures { display: grid; grid-template-columns: 1fr 1.5px 1fr; column-gap: 90px; align-items: center; flex: 1; min-height: 0; margin-top: 20px; }
-  .figures .vline { width: 1.5px; height: 380px; background: linear-gradient(180deg, transparent, var(--gold), transparent); }
-  .fig { text-align: center; }
-  .fig .big {
+/* ── Slide 3 ─────────────────────────────────────────────── */
+.figures { display: grid; grid-template-columns: 1fr 1.5px 1fr; column-gap: 90px; align-items: center; flex: 1; min-height: 0; margin-top: 20px; }
+.figures .vline { width: 2px; height: 380px; background: linear-gradient(180deg, transparent, var(--gold), transparent); box-shadow: 0 0 6px rgba(201,161,77,0.3); border-radius: 1px; }
+.fig { text-align: center; }
+.fig .big {
     font-family: "Cormorant Garamond", serif;
     font-weight: 600;
     font-size: var(--type-display);
     line-height: 0.95;
     color: var(--gold-bright);
     margin: 0;
-  }
-  .fig .big .unit { font-style: italic; font-weight: 500; font-size: 0.62em; }
-  .fig p { font-size: var(--type-body); line-height: 1.45; color: var(--ivory-soft); margin: 26px auto 0; max-width: 600px; }
+    text-shadow:
+        0 3px 6px rgba(201,161,77,0.4),
+        0 1px 3px rgba(201,161,77,0.2);
+}
+.fig .big .unit { font-style: italic; font-weight: 500; font-size: 0.62em; }
+.fig p { font-size: var(--type-body); line-height: 1.45; color: var(--ivory-soft); margin: 26px auto 0; max-width: 600px; }
 
-  /* ── Slide 7 ─────────────────────────────────────────────── */
-  .ledger { display: grid; grid-template-columns: 1fr 1.5px 1fr; column-gap: 100px; margin-top: 64px; flex: 1; min-height: 0; align-content: start; }
-  .ledger .vline { width: 1.5px; height: 100%; max-height: 460px; background: linear-gradient(180deg, transparent, var(--gold), transparent); justify-self: center; }
-  .cost h3 {
+/* ── Slide 7 ─────────────────────────────────────────────── */
+.ledger { display: grid; grid-template-columns: 1fr 1.5px 1fr; column-gap: 100px; margin-top: 64px; flex: 1; min-height: 0; align-content: start; }
+.ledger .vline { width: 2px; height: 100%; max-height: 460px; background: linear-gradient(180deg, transparent, var(--gold), transparent); justify-self: center; box-shadow: 0 0 6px rgba(201,161,77,0.3); border-radius: 1px; }
+.cost h3 {
     font-family: "Cormorant Garamond", serif;
     font-size: var(--type-small);
     font-weight: 700;
@@ -260,352 +310,543 @@
     color: var(--gold-deep);
     text-align: center;
     margin: 0 0 38px 0;
-  }
-  .cost { display: flex; flex-direction: column; }
-  .cost-items { display: flex; flex-direction: column; gap: 30px; }
-  .cost-items p { margin: 0; text-align: center; font-size: var(--type-body); line-height: 1.42; color: var(--ink-soft); }
-  .cost-items p.note { font-style: italic; color: var(--burgundy); }
+    text-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.cost { display: flex; flex-direction: column; }
+.cost-items { display: flex; flex-direction: column; gap: 30px; }
+.cost-items p { margin: 0; text-align: center; font-size: var(--type-body); line-height: 1.42; color: var(--ink-soft); }
+.cost-items p.note { font-style: italic; color: var(--burgundy); }
 
-  /* ── Slide 8 ─────────────────────────────────────────────── */
-  .bgimg { position: absolute; inset: 0; overflow: hidden; }
-  .bgimg img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.06) contrast(1.04); }
-  .bgimg .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,26,21,0.88) 0%, rgba(10,26,21,0.78) 55%, rgba(10,26,21,0.92) 100%); }
-  .choices { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 70px; margin-top: 70px; }
-  .choice { border: 1.5px solid color-mix(in srgb, var(--gold) 60%, transparent); padding: 44px 30px 40px; text-align: center; position: relative; background: rgba(8, 22, 17, 0.35); }
-  .choice .dia { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 24px; background: transparent; line-height: 1; }
-  .choice h3 { font-family: "Cormorant Garamond", serif; font-size: var(--type-subtitle); font-weight: 700; margin: 0 0 8px 0; color: var(--ivory); }
-  .choice p { font-family: "Pinyon Script", cursive; font-size: 36px; color: var(--gold-bright); margin: 0; line-height: 1.2; }
+/* ── Slide 8 ─────────────────────────────────────────────── */
+.bgimg { position: absolute; inset: 0; overflow: hidden; }
+.bgimg img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(1.08) contrast(1.05) brightness(0.98); }
+.bgimg .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,26,21,0.88) 0%, rgba(10,26,21,0.78) 55%, rgba(10,26,21,0.92) 100%); }
 
-  /* ── Entrance + motion ───────────────────────────────────── */
-  @media (prefers-reduced-motion: no-preference) {
-    /* generic block rise for non-case slides */
-    [data-deck-active] .wrap > *:not(.liner):not(.bgimg):not(.case) { animation: riseIn 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-    [data-deck-active] .wrap > *:nth-child(2) { animation-delay: 0.1s; }
-    [data-deck-active] .wrap > *:nth-child(3) { animation-delay: 0.2s; }
-    [data-deck-active] .wrap > *:nth-child(4) { animation-delay: 0.3s; }
-    [data-deck-active] .wrap > *:nth-child(5) { animation-delay: 0.38s; }
-    [data-deck-active] .wrap > .liner, [data-deck-active] .wrap > .bgimg { animation: fadeIn 1.2s ease both; }
+.choices { display: grid; grid-template-columns: 1fr 1fr 1fr; column-gap: 70px; margin-top: 70px; }
+.choice {
+    border: 1.5px solid color-mix(in srgb, var(--gold) 60%, transparent);
+    padding: 44px 30px 40px;
+    text-align: center;
+    position: relative;
+    background: rgba(8, 22, 17, 0.42);
+    backdrop-filter: blur(12px);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        0 8px 32px rgba(0,0,0,0.35);
+    border-radius: 3px;
+}
+.choice .dia { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 24px; background: transparent; line-height: 1; text-shadow: 0 2px 4px rgba(201,161,77,0.4); }
+.choice h3 { font-family: "Cormorant Garamond", serif; font-size: var(--type-subtitle); font-weight: 700; margin: 0 0 8px 0; color: var(--ivory); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.choice p { font-family: "Pinyon Script", cursive; font-size: 36px; color: var(--gold-bright); margin: 0; line-height: 1.2; text-shadow: 0 2px 4px rgba(201,161,77,0.3); }
 
-    /* slow "wet paint" ken-burns drift inside every frame */
-    [data-deck-active] .gilt img { animation: kenburns 18s ease-out both; }
-    [data-deck-active] .bgimg img { animation: kenburnsWide 22s ease-out both; }
+/* ── Enhanced entrance + motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+    [data-deck-active] .wrap > *:not(.liner):not(.bgimg):not(.case) {
+        animation: oilReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 
-    /* gold rule draws itself, diamond pops */
-    [data-deck-active] .rule .ln { animation: drawLine 0.9s 0.3s cubic-bezier(0.4,0,0.1,1) both; transform-origin: left center; }
-    [data-deck-active] .rule.center .ln { transform-origin: center; }
-    [data-deck-active] .rule .dia { animation: popDia 0.6s 0.55s both; }
+    [data-deck-active] .wrap > *:nth-child(2) { animation-delay: 0.12s; }
+    [data-deck-active] .wrap > *:nth-child(3) { animation-delay: 0.24s; }
+    [data-deck-active] .wrap > *:nth-child(4) { animation-delay: 0.36s; }
+    [data-deck-active] .wrap > *:nth-child(5) { animation-delay: 0.44s; }
 
-    /* big figures bloom in */
-    [data-deck-active] .fig .big { animation: figPop 1s 0.2s cubic-bezier(0.2,0.8,0.2,1) both; }
+    [data-deck-active] .wrap > .liner,
+    [data-deck-active] .wrap > .bgimg {
+        animation: oilFade 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    [data-deck-active] .gilt img {
+        animation: oilKenburns 20s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    [data-deck-active] .bgimg img {
+        animation: oilKenburnsWide 24s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    }
+
+    [data-deck-active] .rule .ln {
+        animation: oilDrawLine 1.1s 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+        transform-origin: left center;
+    }
+
+    [data-deck-active] .rule.center .ln {
+        transform-origin: center;
+    }
+
+    [data-deck-active] .rule .dia {
+        animation: oilPopDia 0.8s 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    [data-deck-active] .fig .big {
+        animation: oilFigPop 1.2s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
     [data-deck-active] .figures .vline,
-    [data-deck-active] .ledger .vline { animation: growLine 1s 0.35s ease both; transform-origin: center; }
+    [data-deck-active] .ledger .vline {
+        animation: oilGrowLine 1.2s 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        transform-origin: center;
+    }
 
-    /* case slides: art slides in from its side, points cascade */
-    [data-deck-active] .case .art { animation: artInL 1.05s cubic-bezier(0.2,0.7,0.2,1) both; }
-    [data-deck-active] .case.flip .art { animation-name: artInR; }
-    [data-deck-active] .case .eyebrow { animation: riseIn 0.8s 0.18s both; }
-    [data-deck-active] .case h2 { animation: riseIn 0.8s 0.26s both; }
-    [data-deck-active] .case .rule { animation: riseIn 0.8s 0.34s both; }
-    [data-deck-active] .case .point { animation: pointIn 0.75s both; }
-    [data-deck-active] .case .point:nth-child(1) { animation-delay: 0.46s; }
-    [data-deck-active] .case .point:nth-child(2) { animation-delay: 0.6s; }
-    [data-deck-active] .case .point:nth-child(3) { animation-delay: 0.74s; }
+    [data-deck-active] .case .art {
+        animation: oilArtInL 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 
-    /* choices on the closing slide lift in one by one */
-    [data-deck-active] .choice { animation: pointIn 0.8s both; }
-    [data-deck-active] .choice:nth-child(1) { animation-delay: 0.4s; }
-    [data-deck-active] .choice:nth-child(2) { animation-delay: 0.55s; }
-    [data-deck-active] .choice:nth-child(3) { animation-delay: 0.7s; }
+    [data-deck-active] .case.flip .art {
+        animation-name: oilArtInR;
+    }
 
-    /* the hero cameo breathes */
-    [data-deck-active] .titlegrid figure { animation: floaty 7s 1.1s ease-in-out infinite; }
-  }
-  @keyframes riseIn { from { opacity: 0; transform: translateY(30px); filter: blur(6px); } to { opacity: 1; transform: none; filter: blur(0); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
-  @keyframes kenburnsWide { from { transform: scale(1.14) translateY(2%); } to { transform: scale(1.02) translateY(0); } }
-  @keyframes drawLine { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
-  @keyframes growLine { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
-  @keyframes popDia { from { transform: scale(0) rotate(-45deg); opacity: 0; } 60% { transform: scale(1.35) rotate(0); } to { transform: scale(1) rotate(0); opacity: 1; } }
-  @keyframes figPop { from { opacity: 0; transform: scale(0.82) translateY(14px); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
-  @keyframes artInL { from { opacity: 0; transform: translateX(-46px) scale(0.95); filter: blur(7px); } to { opacity: 1; transform: none; filter: blur(0); } }
-  @keyframes artInR { from { opacity: 0; transform: translateX(46px) scale(0.95); filter: blur(7px); } to { opacity: 1; transform: none; filter: blur(0); } }
-  @keyframes pointIn { from { opacity: 0; transform: translateY(26px) scale(0.98); } to { opacity: 1; transform: none; } }
-  @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    [data-deck-active] .case .eyebrow {
+        animation: oilReveal 1s 0.2s both;
+    }
+
+    [data-deck-active] .case h2 {
+        animation: oilReveal 1s 0.28s both;
+    }
+
+    [data-deck-active] .case .rule {
+        animation: oilReveal 1s 0.36s both;
+    }
+
+    [data-deck-active] .case .point {
+        animation: oilPointIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    [data-deck-active] .case .point:nth-child(1) { animation-delay: 0.5s; }
+    [data-deck-active] .case .point:nth-child(2) { animation-delay: 0.64s; }
+    [data-deck-active] .case .point:nth-child(3) { animation-delay: 0.78s; }
+
+    [data-deck-active] .choice {
+        animation: oilPointIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    [data-deck-active] .choice:nth-child(1) { animation-delay: 0.45s; }
+    [data-deck-active] .choice:nth-child(2) { animation-delay: 0.6s; }
+    [data-deck-active] .choice:nth-child(3) { animation-delay: 0.75s; }
+
+    [data-deck-active] .titlegrid figure {
+        animation: oilFloaty 8s 1.2s ease-in-out infinite;
+    }
+}
+
+@keyframes oilReveal {
+    from {
+        opacity: 0;
+        transform: translateY(36px) scale(0.96);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes oilFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes oilKenburns {
+    from {
+        transform: scale(1.14) translateY(3%);
+        filter: saturate(1.08) contrast(1.04);
+    }
+    to {
+        transform: scale(1.01) translateY(0);
+        filter: saturate(1.12) contrast(1.06);
+    }
+}
+
+@keyframes oilKenburnsWide {
+    from {
+        transform: scale(1.16) translateY(3%) translateX(1%);
+    }
+    to {
+        transform: scale(1.03) translateY(0) translateX(0);
+    }
+}
+
+@keyframes oilDrawLine {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+        filter: blur(2px);
+    }
+    60% {
+        opacity: 1;
+        filter: blur(1px);
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes oilGrowLine {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+        filter: blur(2px);
+    }
+    60% {
+        opacity: 1;
+        filter: blur(1px);
+    }
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes oilPopDia {
+    from {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.4) rotate(0);
+    }
+    to {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+@keyframes oilFigPop {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(18px);
+        filter: blur(10px);
+    }
+    70% {
+        filter: blur(2px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes oilArtInL {
+    from {
+        opacity: 0;
+        transform: translateX(-52px) scale(0.94) rotate(-0.5deg);
+        filter: blur(9px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotate(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes oilArtInR {
+    from {
+        opacity: 0;
+        transform: translateX(52px) scale(0.94) rotate(0.5deg);
+        filter: blur(9px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotate(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes oilPointIn {
+    from {
+        opacity: 0;
+        transform: translateY(32px) scale(0.96);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes oilFloaty {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-14px) rotate(0.3deg);
+    }
+}
 </style>
 </head>
 <body>
+<deck-stage width="1920" height="1080" no-rail>
 
-<deck-stage width="1920" height="1080">
-
-  <!-- ── 1 · Title ─────────────────────────────────────────── -->
-  <section class="dark" data-label="Title">
+<!-- ── 1 · Title ─────────────────────────────────────────── -->
+<section class="dark" data-label="Title">
     <div class="wrap">
-      <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
-      <div class="titlegrid">
-        <div>
-          <p class="eyebrow">Ambition, roots &amp; the modern career</p>
-          <h1><span>Build Here</span><span class="title-or">or</span><span>Migrate</span></h1>
-          <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-          <p class="lede">The big question for young Colombian professionals: <em class="gold">stay and build a career here</em> — or <em class="gold">move abroad for the opportunity</em>.</p>
-          <p class="smallcaps">An educational debate · Colombia · 2026</p>
+        <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
+        <div class="titlegrid">
+            <div>
+                <p class="eyebrow">career choices for young professionals</p>
+                <h1><span>Build Here</span><span class="title-or">or</span><span>Migrate</span></h1>
+                <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+                <p class="lede">Should you <em class="gold">build your career in Colombia</em> or <em class="gold">move abroad for better opportunities</em>?</p>
+                <p class="smallcaps">A debate for Colombian professionals · 2026</p>
+            </div>
+            <figure style="margin: 0;">
+                <div class="gilt cameo" style="height: 660px;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Jean-Honor%C3%A9_Fragonard_-_The_Swing_-_Google_Art_Project.jpg/1920px-Jean-Honor%C3%A9_Fragonard_-_The_Swing_-_Google_Art_Project.jpg" alt="The Swing by Fragonard">
+                </div>
+                <figcaption class="credit">Jean-Honoré Fragonard, <span>The Swing</span>, 1767</figcaption>
+            </figure>
         </div>
-        <figure style="margin: 0;">
-          <div class="gilt cameo" style="height: 660px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Jean-Honor%C3%A9_Fragonard_-_The_Swing_-_Google_Art_Project.jpg/1920px-Jean-Honor%C3%A9_Fragonard_-_The_Swing_-_Google_Art_Project.jpg" alt="The Swing by Fragonard">
-          </div>
-          <figcaption class="credit">Jean-Honoré Fragonard, <span>The Swing</span>, 1767</figcaption>
-        </figure>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ── 2 · The Crossroads ───────────────────────────────── -->
-  <section data-label="The Crossroads">
+<!-- ── 2 · The Crossroads ───────────────────────────────── -->
+<section data-label="The Crossroads">
     <div class="wrap centered">
-      <header>
-        <p class="eyebrow">every graduate faces it</p>
-        <h2>The Crossroads</h2>
-        <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-      </header>
-      <div class="twoways">
-        <div class="way">
-          <div class="gilt">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/1920px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" alt="Wanderer above the Sea of Fog">
-          </div>
-          <h3>Go Abroad</h3>
-          <p>Take your skills to where the pay is highest.</p>
+        <header>
+            <p class="eyebrow">the choice</p>
+            <h2>The Crossroads</h2>
+            <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+        </header>
+        <div class="twoways">
+            <div class="way">
+                <div class="gilt">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/1920px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" alt="Wanderer above the Sea of Fog">
+                </div>
+                <h3>Go Abroad</h3>
+                <p>Work where salaries are highest.</p>
+            </div>
+            <div class="way">
+                <div class="gilt">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Multicolored_street_in_Cartagena.JPG/1920px-Multicolored_street_in_Cartagena.JPG" alt="Colorful colonial street in Cartagena">
+                </div>
+                <h3>Stay Home</h3>
+                <p>Build where you know the culture.</p>
+            </div>
         </div>
-        <div class="way">
-          <div class="gilt">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Multicolored_street_in_Cartagena.JPG/1920px-Multicolored_street_in_Cartagena.JPG" alt="Colorful colonial street in Cartagena">
-          </div>
-          <h3>Stay Home</h3>
-          <p>Build your career on the ground you know.</p>
-        </div>
-      </div>
-      <p class="kicker">It&rsquo;s not just about money — it&rsquo;s about who you are and the future you want.</p>
+        <p class="kicker">It&rsquo;s about money, lifestyle, and your future.</p>
     </div>
-  </section>
+</section>
 
-  <!-- ── 3 · A Country on the Move ────────────────────────── -->
-  <section class="dark" data-label="A Country on the Move">
+<!-- ── 3 · A Country on the Move ────────────────────────── -->
+<section class="dark" data-label="A Country on the Move">
     <div class="wrap centered">
-      <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
-      <header>
-        <p class="eyebrow">by the numbers</p>
-        <h2>A Country on the Move</h2>
-        <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-      </header>
-      <div class="figures">
-        <div class="fig">
-          <p class="big"><span>1.3</span><span class="unit"> million</span></p>
-          <p>Colombians left for good between 2022 and 2024 — <em class="gold">a record</em>.</p>
+        <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
+        <header>
+            <p class="eyebrow">the data</p>
+            <h2>A Country on the Move</h2>
+            <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+        </header>
+        <div class="figures">
+            <div class="fig">
+                <p class="big"><span>1.3</span><span class="unit"> million</span></p>
+                <p>Colombians left permanently from 2022 to 2024 — <em class="gold">a record</em>.</p>
+            </div>
+            <div class="vline"></div>
+            <div class="fig">
+                <p class="big"><span>5.1</span><span class="unit"> million</span></p>
+                <p>Colombians live abroad — mainly in the US, Spain, and Chile.</p>
+            </div>
         </div>
-        <div class="vline"></div>
-        <div class="fig">
-          <p class="big"><span>5.1</span><span class="unit"> million</span></p>
-          <p>Colombians now live abroad — mostly in the US, Spain &amp; Chile.</p>
-        </div>
-      </div>
-      <p class="kicker">Today&rsquo;s emigrants are younger, better educated, and more strategic than ever.</p>
+        <p class="kicker">Today&rsquo;s emigrants are younger and more educated than before.</p>
     </div>
-  </section>
+</section>
 
-  <!-- ── 4 · The Case for Migrating ───────────────────────── -->
-  <section data-label="The Case for Migrating">
+<!-- ── 4 · The Case for Migrating ───────────────────────── -->
+<section data-label="The Case for Migrating">
     <div class="wrap">
-      <div class="case">
-        <figure class="art" style="margin: 0;">
-          <div class="gilt">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Claude_Lorrain_008.jpg/1920px-Claude_Lorrain_008.jpg" alt="Baroque seaport scene by Claude Lorrain">
-          </div>
-          <figcaption class="credit">Claude Lorrain, <span>A Seaport</span>, c.&nbsp;1640</figcaption>
-        </figure>
-        <div>
-          <p class="eyebrow">why leave</p>
-          <h2>The Case for Migrating</h2>
-          <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-          <div class="points">
-            <div class="point">
-              <span class="num">I</span>
-              <div>
-                <h3>Higher Pay</h3>
-                <p>Salaries abroad can be several times local pay.</p>
-              </div>
+        <div class="case">
+            <figure class="art" style="margin: 0;">
+                <div class="gilt">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Claude_Lorrain_008.jpg/1920px-Claude_Lorrain_008.jpg" alt="Baroque seaport scene by Claude Lorrain">
+                </div>
+                <figcaption class="credit">Claude Lorrain, <span>A Seaport</span>, c.&nbsp;1640</figcaption>
+            </figure>
+            <div>
+                <p class="eyebrow">benefits of leaving</p>
+                <h2>The Case for Migrating</h2>
+                <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+                <div class="points">
+                    <div class="point">
+                        <span class="num">I</span>
+                        <div>
+                            <h3>Higher Pay</h3>
+                            <p>Earn 3-5x more than in Colombia.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">II</span>
+                        <div>
+                            <h3>Faster Growth</h3>
+                            <p>Work with global teams, advance quickly.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">III</span>
+                        <div>
+                            <h3>Better Stability</h3>
+                            <p>Safer cities, stable economy, global network.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="point">
-              <span class="num">II</span>
-              <div>
-                <h3>Faster Growth</h3>
-                <p>Global companies, bigger projects, quicker promotions.</p>
-              </div>
-            </div>
-            <div class="point">
-              <span class="num">III</span>
-              <div>
-                <h3>More Options</h3>
-                <p>More safety, more stability, and a much wider network.</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ── 5 · The Case for Building Here ───────────────────── -->
-  <section data-label="The Case for Building Here">
+<!-- ── 5 · The Case for Building Here ───────────────────── -->
+<section data-label="The Case for Building Here">
     <div class="wrap">
-      <div class="case flip">
-        <div>
-          <p class="eyebrow">why stay</p>
-          <h2>The Case for Building Here</h2>
-          <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-          <div class="points">
-            <div class="point">
-              <span class="num">I</span>
-              <div>
-                <h3>A Real Tech Hub</h3>
-                <p>Colombia is now the third-largest tech scene in South America.</p>
-              </div>
+        <div class="case flip">
+            <div>
+                <p class="eyebrow">benefits of staying</p>
+                <h2>The Case for Building Here</h2>
+                <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+                <div class="points">
+                    <div class="point">
+                        <span class="num">I</span>
+                        <div>
+                            <h3>Growing Tech Hub</h3>
+                            <p>3rd largest tech scene in South America.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">II</span>
+                        <div>
+                            <h3>Top Companies Here</h3>
+                            <p>Google, Microsoft, Amazon hiring in Bogotá and Medellín.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">III</span>
+                        <div>
+                            <h3>Family &amp; Impact</h3>
+                            <p>Lower costs, family nearby, help build Colombia.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="point">
-              <span class="num">II</span>
-              <div>
-                <h3>Big Names Hiring</h3>
-                <p>150,000+ tech workers, with Google, Microsoft &amp; Amazon in Bogotá and Medellín.</p>
-              </div>
-            </div>
-            <div class="point">
-              <span class="num">III</span>
-              <div>
-                <h3>Roots &amp; Impact</h3>
-                <p>Lower costs, family close by, and a chance to shape your own country.</p>
-              </div>
-            </div>
-          </div>
+            <figure class="art" style="margin: 0;">
+                <div class="gilt">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Cartagena_Old_City.JPG/1920px-Cartagena_Old_City.JPG" alt="Cartagena old city street">
+                </div>
+                <figcaption class="credit">Cartagena de Indias, <span>the walled city</span></figcaption>
+            </figure>
         </div>
-        <figure class="art" style="margin: 0;">
-          <div class="gilt">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Cartagena_Old_City.JPG/1920px-Cartagena_Old_City.JPG" alt="Cartagena old city street">
-          </div>
-          <figcaption class="credit">Cartagena de Indias, <span>the walled city</span></figcaption>
-        </figure>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ── 6 · The Third Path ───────────────────────────────── -->
-  <section class="dark" data-label="The Third Path">
+<!-- ── 6 · The Third Path ───────────────────────────────── -->
+<section class="dark" data-label="The Third Path">
     <div class="wrap">
-      <div class="case">
-        <figure class="art" style="margin: 0;">
-          <div class="gilt">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Johannes_Vermeer_-_The_Geographer_-_Google_Art_Project.jpg/1920px-Johannes_Vermeer_-_The_Geographer_-_Google_Art_Project.jpg" alt="The Geographer by Vermeer">
-          </div>
-          <figcaption class="credit">Johannes Vermeer, <span>The Geographer</span>, 1669</figcaption>
-        </figure>
-        <div>
-          <p class="eyebrow">the hybrid</p>
-          <h2>The Third Path: Remote Work</h2>
-          <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-          <div class="points">
-            <div class="point">
-              <span class="num">I</span>
-              <div>
-                <h3>Earn Global, Live Local</h3>
-                <p>Stay in Colombia and get paid in U.S. dollars.</p>
-              </div>
+        <div class="case">
+            <figure class="art" style="margin: 0;">
+                <div class="gilt">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Johannes_Vermeer_-_The_Geographer_-_Google_Art_Project.jpg/1920px-Johannes_Vermeer_-_The_Geographer_-_Google_Art_Project.jpg" alt="The Geographer by Vermeer">
+                </div>
+                <figcaption class="credit">Johannes Vermeer, <span>The Geographer</span>, 1669</figcaption>
+            </figure>
+            <div>
+                <p class="eyebrow">the middle way</p>
+                <h2>Remote Work</h2>
+                <div class="rule left"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+                <div class="points">
+                    <div class="point">
+                        <span class="num">I</span>
+                        <div>
+                            <h3>Global Pay, Local Life</h3>
+                            <p>Live in Colombia, earn in USD.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">II</span>
+                        <div>
+                            <h3>Booming Market</h3>
+                            <p>Remote jobs exploded after 2020.</p>
+                        </div>
+                    </div>
+                    <div class="point">
+                        <span class="num">III</span>
+                        <div>
+                            <h3>The Challenge</h3>
+                            <p>Requires strong English and self-discipline.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="point">
-              <span class="num">II</span>
-              <div>
-                <h3>A Growing Market</h3>
-                <p>Remote hiring across Latin America took off after 2020.</p>
-              </div>
-            </div>
-            <div class="point">
-              <span class="num">III</span>
-              <div>
-                <h3>The Catch</h3>
-                <p>Best of both worlds — if your English and discipline are solid.</p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ── 7 · The Hidden Price ─────────────────────────────── -->
-  <section data-label="The Hidden Price">
+<!-- ── 7 · The Hidden Price ─────────────────────────────── -->
+<section data-label="The Hidden Price">
     <div class="wrap centered">
-      <header>
-        <p class="eyebrow">the trade-offs</p>
-        <h2>The Hidden Price</h2>
-        <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-      </header>
-      <div class="ledger">
-        <div class="cost">
-          <h3>If You Leave</h3>
-          <div class="cost-items">
-            <p>Homesickness and culture shock.</p>
-            <p>Distance from family and friends.</p>
-            <p class="note">The real cost of moving is easy to underestimate.</p>
-          </div>
+        <header>
+            <p class="eyebrow">the costs</p>
+            <h2>The Hidden Price</h2>
+            <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+        </header>
+        <div class="ledger">
+            <div class="cost">
+                <h3>If You Leave</h3>
+                <div class="cost-items">
+                    <p>Homesickness and culture shock.</p>
+                    <p>Distance from family and friends.</p>
+                    <p class="note">Moving costs more than you think.</p>
+                </div>
+            </div>
+            <div class="vline"></div>
+            <div class="cost">
+                <h3>If You Stay</h3>
+                <div class="cost-items">
+                    <p>Often a smaller paycheck.</p>
+                    <p>The doubt of the road not taken.</p>
+                    <p class="note">But you gain family, comfort, and belonging.</p>
+                </div>
+            </div>
         </div>
-        <div class="vline"></div>
-        <div class="cost">
-          <h3>If You Stay</h3>
-          <div class="cost-items">
-            <p>Often a smaller paycheck.</p>
-            <p>The doubt of the road not taken.</p>
-            <p class="note">But also closeness, comfort, and belonging.</p>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- ── 8 · Closing ──────────────────────────────────────── -->
-  <section class="dark" data-label="What Would You Choose">
+<!-- ── 8 · Closing ──────────────────────────────────────── -->
+<section class="dark" data-label="What Would You Choose">
     <div class="wrap centered" style="justify-content: center;">
-      <div class="bgimg">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vista_panor%C3%A1mica_de_Bogot%C3%A1_desde_el_Cerro_de_Monserrate.JPG/1920px-Vista_panor%C3%A1mica_de_Bogot%C3%A1_desde_el_Cerro_de_Monserrate.JPG" alt="Panorama of Bogotá from Monserrate">
-        <div class="veil"></div>
-      </div>
-      <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
-      <header style="position: relative;">
-        <p class="eyebrow">so…</p>
-        <h2>What Would You Choose?</h2>
-        <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
-      </header>
-      <div class="choices" style="position: relative;">
-        <div class="choice">
-          <span class="dia">◆</span>
-          <h3>Build Here</h3>
-          <p>shape your country</p>
+        <div class="bgimg">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Vista_panor%C3%A1mica_de_Bogot%C3%A1_desde_el_Cerro_de_Monserrate.JPG/1920px-Vista_panor%C3%A1mica_de_Bogot%C3%A1_desde_el_Cerro_de_Monserrate.JPG" alt="Panorama of Bogotá from Monserrate">
+            <div class="veil"></div>
         </div>
-        <div class="choice">
-          <span class="dia">◆</span>
-          <h3>Migrate</h3>
-          <p>chase opportunity</p>
+        <div class="liner"><span class="fl tl">❧</span><span class="fl tr">❧</span><span class="fl bl">❧</span><span class="fl br">❧</span></div>
+        <header style="position: relative;">
+            <p class="eyebrow">your turn</p>
+            <h2>What Will You Choose?</h2>
+            <div class="rule center"><span class="ln"></span><span class="dia">◆</span><span class="ln"></span></div>
+        </header>
+        <div class="choices" style="position: relative;">
+            <div class="choice">
+                <span class="dia">◆</span>
+                <h3>Build Here</h3>
+                <p>build Colombia</p>
+            </div>
+            <div class="choice">
+                <span class="dia">◆</span>
+                <h3>Migrate</h3>
+                <p>pursue growth</p>
+            </div>
+            <div class="choice">
+                <span class="dia">◆</span>
+                <h3>Blend Both</h3>
+                <p>best of both</p>
+            </div>
         </div>
-        <div class="choice">
-          <span class="dia">◆</span>
-          <h3>Blend Both</h3>
-          <p>global pay, local life</p>
-        </div>
-      </div>
-      <p class="kicker" style="position: relative; max-width: 1300px;">There&rsquo;s no single right answer — it depends on your goals. <em class="gold">Success, roots, or freedom: what matters most to you?</em></p>
+        <p class="kicker" style="position: relative; max-width: 1300px;">No right answer — just what matters most to you. <em class="gold">Success, family, or freedom?</em></p>
     </div>
-  </section>
+</section>
 
 </deck-stage>
-
 <script src="deck-stage.js"></script>
-
 <!-- Tweaks panel -->
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -613,54 +854,55 @@
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 <div id="tweaks-root"></div>
 <script type="text/babel">
-  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
     "jewel": "Emerald",
     "gold": "#c9a14d",
     "bodySize": 32
-  }/*EDITMODE-END*/;
+}/*EDITMODE-END*/;
 
-  const JEWELS = {
+const JEWELS = {
     Emerald:  ["#14352c", "#0c241d"],
     Sapphire: ["#1a2c44", "#101d30"],
     Burgundy: ["#3c1a26", "#27101a"]
-  };
+};
 
-  function mixHex(hex, amt) {
-    // amt > 0 lightens toward white, < 0 darkens toward black
+function mixHex(hex, amt) {
     const n = parseInt(hex.slice(1), 16);
     const ch = (sh) => {
-      let c = (n >> sh) & 255;
-      c = amt > 0 ? Math.round(c + (255 - c) * amt) : Math.round(c * (1 + amt));
-      return c.toString(16).padStart(2, "0");
+        let c = (n >> sh) & 255;
+        c = amt > 0 ? Math.round(c + (255 - c) * amt) : Math.round(c * (1 + amt));
+        return c.toString(16).padStart(2, "0");
     };
     return "#" + ch(16) + ch(8) + ch(0);
-  }
+}
 
-  function DeckTweaks() {
+function DeckTweaks() {
     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-    React.useEffect(() => {
-      const r = document.documentElement.style;
-      const [d1, d2] = JEWELS[t.jewel] || JEWELS.Emerald;
-      r.setProperty("--bg-dark", d1);
-      r.setProperty("--bg-dark-deep", d2);
-      r.setProperty("--gold", t.gold);
-      r.setProperty("--gold-bright", mixHex(t.gold, 0.32));
-      r.setProperty("--gold-deep", mixHex(t.gold, -0.32));
-      r.setProperty("--type-body", t.bodySize + "px");
-      r.setProperty("--type-small", Math.max(24, Math.round(t.bodySize * 0.78)) + "px");
-    }, [t]);
-    return (
-      <TweaksPanel>
-        <TweakSection label="Palette" />
-        <TweakRadio label="Jewel tone" value={t.jewel} options={["Emerald", "Sapphire", "Burgundy"]} onChange={(v) => setTweak("jewel", v)} />
-        <TweakColor label="Gold accent" value={t.gold} options={["#c9a14d", "#b3873a", "#d6bd7d"]} onChange={(v) => setTweak("gold", v)} />
-        <TweakSection label="Typography" />
-        <TweakSlider label="Body size" value={t.bodySize} min={26} max={40} step={1} unit="px" onChange={(v) => setTweak("bodySize", v)} />
-      </TweaksPanel>
-    );
-  }
-  ReactDOM.createRoot(document.getElementById("tweaks-root")).render(<DeckTweaks />);
-</script>
 
+    React.useEffect(() => {
+        const r = document.documentElement.style;
+        const [d1, d2] = JEWELS[t.jewel] || JEWELS.Emerald;
+        r.setProperty("--bg-dark", d1);
+        r.setProperty("--bg-dark-deep", d2);
+        r.setProperty("--gold", t.gold);
+        r.setProperty("--gold-bright", mixHex(t.gold, 0.32));
+        r.setProperty("--gold-deep", mixHex(t.gold, -0.32));
+        r.setProperty("--type-body", t.bodySize + "px");
+        r.setProperty("--type-small", Math.max(24, Math.round(t.bodySize * 0.78)) + "px");
+    }, [t]);
+
+    return (
+        <TweaksPanel>
+            <TweakSection label="Palette" />
+            <TweakRadio label="Jewel tone" value={t.jewel} options={["Emerald", "Sapphire", "Burgundy"]} onChange={(v) => setTweak("jewel", v)} />
+            <TweakColor label="Gold accent" value={t.gold} options={["#c9a14d", "#b3873a", "#d6bd7d"]} onChange={(v) => setTweak("gold", v)} />
+            <TweakSection label="Typography" />
+            <TweakSlider label="Body size" value={t.bodySize} min={26} max={40} step={1} unit="px" onChange={(v) => setTweak("bodySize", v)} />
+        </TweaksPanel>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("tweaks-root")).render(<DeckTweaks />);
+</script>
 </body>
 </html>
