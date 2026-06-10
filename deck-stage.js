@@ -1294,8 +1294,8 @@
     }
 
     _onTap(e) {
-      // Touch-only — keyboard + the overlay toolbar cover nav on desktop.
-      if (FINE_POINTER_MQ.matches) return;
+      // Allow navigation on tap/click for touch displays (e.g. touch TVs),
+      // removing the fine-pointer restriction.
       // Only taps that land on the stage (slide content or letterbox); the
       // overlay / rail / menus are siblings with their own click handlers.
       const path = e.composedPath();
