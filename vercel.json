@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/Build Here or Migrate.html" }
+  ]
+}
